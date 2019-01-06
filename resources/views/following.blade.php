@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <section class="section">
-            <h1 class="title">お引越ししたフォロー中ユーザーの一覧</h1>
+            <h1 class="title">お引越ししたフォロー中アカウントの一覧</h1>
             @if (empty($followings))
                 <p>
                     フォロー中の {{ $followingCount }} アカウントのうち、お引越しした人は誰もいないようです。
