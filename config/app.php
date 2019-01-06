@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'MastodonMovedFollowerCheck'),
+    'name' => env('APP_NAME', 'MastodonMovedAccountCheck'),
 
     /*
     |--------------------------------------------------------------------------
