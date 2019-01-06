@@ -14,7 +14,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // 本番ではHTTPS強制
+        if (\App::environment('production')) {
+            \URL::forceScheme('https');
+        }
     }
 
     /**
