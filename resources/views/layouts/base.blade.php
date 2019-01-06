@@ -47,7 +47,7 @@
 @yield('content')
 <footer class="footer">
     <div class="container">
-        <p>&copy; 2019 shibafu</p>
+        <p>&copy; 2019 shibafu528</p>
         <p>Developed by <a href="https://ertona.net/@shibafu528" target="_blank" rel="noopener noreferrer">&commat;shibafu528&commat;ertona.net</a></p>
     </div>
 </footer>
