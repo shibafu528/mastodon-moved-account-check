@@ -49,6 +49,7 @@
     <div class="container">
         <p>&copy; 2019 shibafu528</p>
         <p>Developed by <a href="https://ertona.net/@shibafu528" target="_blank" rel="noopener noreferrer">&commat;shibafu528&commat;ertona.net</a></p>
+        <p><a href="https://github.com/shibafu528/mastodon-moved-account-check" target="_blank" rel="noopener noreferrer">GitHub</a></p>
     </div>
 </footer>
 </body>
