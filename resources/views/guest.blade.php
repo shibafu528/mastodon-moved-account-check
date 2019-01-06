@@ -5,7 +5,7 @@
         <section class="section">
             <h1 class="title">これは何？</h1>
             <p>
-                Mastodonのフォロワーから、別のインスタンスにお引越しした人をリストアップします。
+                Mastodonのフォロイーから、別のインスタンスにお引越しした人をリストアップします。
             </p>
         </section>
         <section class="section">
