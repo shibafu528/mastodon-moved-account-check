@@ -1,0 +1,87 @@
+@charset "UTF-8";
+
+.navbar {
+    border-bottom: 2px solid #2b5fd9;
+}
+
+.account-list-item {
+    margin: 1rem 0.75rem;
+}
+
+.account-link {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+}
+
+.account-avatar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 48px;
+    height: 48px;
+}
+
+.account-name {
+    word-break: break-all;
+}
+
+.account-display-name {
+    color: #4a4a4a;
+}
+
+.account-old {
+    background-color: #d9e1e8;
+    border-radius: 0.5rem;
+}
+
+.account-old-inner {
+    padding-left: 54px;
+    position: relative;
+    min-height: 48px;
+}
+
+.account-new {
+    background-color: #e6ebf0;
+    border-radius: 0.5rem;
+}
+
+.account-new-inner {
+    padding-left: 74px;
+    position: relative;
+    min-height: 48px;
+}
+
+.account-new-inner > :first-child {
+    position: absolute;
+    left: 0;
+    top: 16px;
+}
+
+.account-new-inner .account-avatar {
+    left: 20px;
+}
+
+@media (max-width: 1023px) {
+    .account-old {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .account-new {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+}
+
+@media (min-width: 1024px) {
+    .account-old {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .account-new {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}
