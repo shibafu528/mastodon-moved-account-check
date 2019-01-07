@@ -4,15 +4,15 @@
     <div class="container">
         <section class="section">
             <h1 class="title">お引越ししたフォロー中アカウントの一覧</h1>
-            @if (empty($followings))
+            @if (empty($movedAccounts))
                 <p>
                     フォロー中の {{ $followingCount }} アカウントのうち、お引越しした人は誰もいないようです。
                 </p>
             @else
                 <p style="margin-bottom: 2rem;">
-                    フォロー中の {{ $followingCount }} アカウントのうち、{{ count($followings) }} アカウントは別のアカウントにお引越ししたようです。
+                    フォロー中の {{ $followingCount }} アカウントのうち、{{ count($movedAccounts) }} アカウントは別のアカウントにお引越ししたようです。
                 </p>
-                @foreach ($followings as $account)
+                @foreach ($movedAccounts as $account)
                     <div class="account-list-item">
                         <div class="columns">
                             <div class="column account-old">
@@ -40,7 +40,15 @@
                                     </a>
                                 </div>
                             </div>
-                            <div class="column is-hidden-touch"></div>
+                            @if (isset($followings[$account['moved']['url']]))
+                                <div class="column account-status is-followed">
+                                    <i class="fas fa-user-check fa-fw" style="margin-right: 0.5rem;"></i> フォロー済です
+                                </div>
+                            @else
+                                <div class="column account-status">
+                                    <i class="fas fa-exclamation fa-fw" style="margin-right: 0.5rem;"></i> フォローしていません
+                                </div>
+                            @endif
                         </div>
                     </div>
                 @endforeach

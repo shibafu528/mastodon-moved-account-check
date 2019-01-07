@@ -43,7 +43,6 @@
 
 .account-new {
     background-color: #e6ebf0;
-    border-radius: 0.5rem;
 }
 
 .account-new-inner {
@@ -62,15 +61,33 @@
     left: 20px;
 }
 
+.account-status {
+    background-color: #e6ebf0;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.account-status.is-followed {
+    color: #3273dc;
+}
+
+.account-status:not(.is-followed) {
+    background-color: #ff4f75;
+    color: #fff;
+}
+
 @media (max-width: 1023px) {
     .account-old {
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
     }
 
-    .account-new {
+    .account-status {
         border-top-left-radius: 0;
         border-top-right-radius: 0;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
     }
 }
 
@@ -80,7 +97,7 @@
         border-bottom-right-radius: 0;
     }
 
-    .account-new {
+    .account-status {
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }

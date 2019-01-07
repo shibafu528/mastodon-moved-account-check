@@ -18,7 +18,8 @@ class FollowingController extends Controller
 
         // フォロイーを取得
         $followingCount = 0;
-        $followings = [];
+        $followings = []; // フォロー済判定用、キー = URL
+        $movedAccounts = [];
         $client = $this->getClient(session('instance'), session('access_token'));
         $nextUrl = '/api/v1/accounts/' . session('account')['id'] . '/following';
         while (!empty($nextUrl)) {
@@ -26,12 +27,14 @@ class FollowingController extends Controller
             $followingBody = json_decode($followingResponse->getBody()->getContents(), true);
             foreach ($followingBody as $account) {
                 $followingCount++;
+                $followings[$account['url']] = true;
 
                 if (!empty($account['moved'])) {
-                    $followings[] = $account;
+                    $movedAccounts[] = $account;
                 }
             }
 
+            // 次のページがあれば続けて取得
             $nextUrl = null;
             $links = \GuzzleHttp\Psr7\parse_header($followingResponse->getHeader('link'));
             foreach ($links as $link) {
@@ -41,7 +44,7 @@ class FollowingController extends Controller
             }
         }
 
-        return view('following')->with(compact('followingCount', 'followings'));
+        return view('following')->with(compact('followingCount', 'followings', 'movedAccounts'));
     }
 
     private function getClient(string $instance, string $accessToken)
