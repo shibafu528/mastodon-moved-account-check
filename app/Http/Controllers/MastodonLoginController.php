@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MastodonApp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,38 +30,49 @@ class MastodonLoginController extends Controller
                 ->withInput();
         }
 
-        // /api/v1/apps でアプリ登録
-        $client = new \GuzzleHttp\Client([
-            'base_uri' => 'https://' . $inputs['instance']
-        ]);
-        $registerResponse = $client->post('/api/v1/apps', [
-            'form_params' => [
-                'client_name' => config('app.name'),
-                'redirect_uris' => url('/login/callback'),
-                'scopes' => 'read follow',
-                'website' => url('/')
-            ]
-        ]);
-        $registerBody = json_decode($registerResponse->getBody()->getContents(), true);
-        $clientId = $registerBody['client_id'];
-        $clientSecret = $registerBody['client_secret'];
+        // アプリ登録情報の取得
+        $app = MastodonApp::where('host', $inputs['instance'])->first();
+        if ($app === null) {
+            // /api/v1/apps でアプリ登録
+            $client = new \GuzzleHttp\Client([
+                'base_uri' => 'https://' . $inputs['instance']
+            ]);
+            $redirectUri = url('/login/callback');
+            $registerResponse = $client->post('/api/v1/apps', [
+                'form_params' => [
+                    'client_name' => config('app.name'),
+                    'redirect_uris' => $redirectUri,
+                    'scopes' => 'read follow',
+                    'website' => url('/')
+                ]
+            ]);
+            $registerBody = json_decode($registerResponse->getBody()->getContents(), true);
+
+            // Client ID/SecretをDBに保存
+            $app = MastodonApp::create([
+                'host' => $inputs['instance'],
+                'client_id' => $registerBody['client_id'],
+                'client_secret' => $registerBody['client_secret'],
+                'redirect_uri' => $redirectUri
+            ]);
+        }
 
         // Instance/CID/Secretはセッションに保存
         $request->session()->regenerate();
         session([
-            'instance' => $inputs['instance'],
-            'client_id' => $clientId,
-            'client_secret' => $clientSecret
+            'instance' => $app->host,
+            'client_id' => $app->client_id,
+            'client_secret' => $app->client_secret
         ]);
 
         // OAuthページにリダイレクト
         $query = http_build_query([
             'response_type' => 'code',
-            'client_id' => $clientId,
+            'client_id' => $app->client_id,
             'scope' => 'read follow',
-            'redirect_uri' => url('/login/callback')
+            'redirect_uri' => $app->redirect_uri
         ]);
-        return redirect('https://' . $inputs['instance'] . '/oauth/authorize?' . $query);
+        return redirect('https://' . $app->host . '/oauth/authorize?' . $query);
     }
 
     public function callback(Request $request)
