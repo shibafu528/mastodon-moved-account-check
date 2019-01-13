@@ -20,7 +20,7 @@ class FollowingController extends Controller
         $followingCount = 0;
         $followings = []; // フォロー済判定用、キー = URL
         $movedAccounts = [];
-        $client = $this->getClient(session('instance'), session('access_token'));
+        $client = $this->getClient(session('host'), session('access_token'));
         $nextUrl = '/api/v1/accounts/' . session('account')['id'] . '/following';
         while (!empty($nextUrl)) {
             $followingResponse = $client->get($nextUrl);
@@ -47,10 +47,10 @@ class FollowingController extends Controller
         return view('following')->with(compact('followingCount', 'followings', 'movedAccounts'));
     }
 
-    private function getClient(string $instance, string $accessToken)
+    private function getClient(string $host, string $accessToken)
     {
         return new \GuzzleHttp\Client([
-            'base_uri' => 'https://' . $instance,
+            'base_uri' => 'https://' . $host,
             'headers' => [
                 'Authorization' => 'Bearer ' . $accessToken
             ]

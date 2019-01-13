@@ -30,7 +30,7 @@
         @if (!empty(session('account')))
             <div id="navbar" class="navbar-menu">
                 <div class="navbar-start">
-                    <span class="navbar-item">&commat;{{ session('account')['acct'] }}&commat;{{ session('instance') }}</span>
+                    <span class="navbar-item">&commat;{{ session('account')['acct'] }}&commat;{{ session('host') }}</span>
                 </div>
                 <div class="navbar-end">
                     <div class="navbar-item">

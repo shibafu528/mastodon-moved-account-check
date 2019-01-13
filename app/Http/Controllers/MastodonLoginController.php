@@ -57,10 +57,10 @@ class MastodonLoginController extends Controller
             ]);
         }
 
-        // Instance/CID/Secretはセッションに保存
+        // Host/CID/Secretはセッションに保存
         $request->session()->regenerate();
         session([
-            'instance' => $app->host,
+            'host' => $app->host,
             'client_id' => $app->client_id,
             'client_secret' => $app->client_secret
         ]);
@@ -86,11 +86,11 @@ class MastodonLoginController extends Controller
                 ->withInput();
         }
 
-        // セッションからInstance/CID/Secret取得
-        $instance = session('instance');
+        // セッションからHost/CID/Secret取得
+        $host = session('host');
         $clientId = session('client_id');
         $clientSecret = session('client_secret');
-        if (empty($instance) || empty($clientId) || empty(($clientSecret))) {
+        if (empty($host) || empty($clientId) || empty(($clientSecret))) {
             return redirect('/')
                 ->with('status', 'ログイン処理が上手くいきませんでした。もう一度やり直してください。')
                 ->withInput();
@@ -98,7 +98,7 @@ class MastodonLoginController extends Controller
 
         // /oauth/token でアクセストークン取得
         $client = new \GuzzleHttp\Client([
-            'base_uri' => 'https://' . $instance
+            'base_uri' => 'https://' . $host
         ]);
         $tokenResponse = $client->post('/oauth/token', [
             'form_params' => [
